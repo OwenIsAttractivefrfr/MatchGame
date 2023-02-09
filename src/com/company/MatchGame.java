@@ -2,6 +2,7 @@ package com.company;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.util.GregorianCalendar;
 
 
 public class MatchGame extends JFrame
@@ -22,6 +23,15 @@ public class MatchGame extends JFrame
     ButtonGroup playWhoButtonGroup = new ButtonGroup();
     JRadioButton playAloneRadioButton = new JRadioButton();
     JRadioButton playComputerRadioButton = new JRadioButton();
+    JPanel difficultyPanel = new JPanel();
+    ButtonGroup difficultyButtonGroup = new ButtonGroup();
+    JRadioButton easiestRadioButton = new JRadioButton();
+    JRadioButton easyRadioButton = new JRadioButton();
+    JRadioButton hardRadioButton = new JRadioButton();
+    JRadioButton hardestRadioButton = new JRadioButton();
+    JPanel buttonsPanel = new JPanel();
+    JButton startStopButton = new JButton();
+    JButton exitButton = new JButton();
 
 
 
@@ -189,8 +199,8 @@ public class MatchGame extends JFrame
 
         playWhoPanel.setPreferredSize(new Dimension(160,75));
         playWhoPanel.setBackground(Color.lightGray);
-        playersPanel.setBorder(BorderFactory.createTitledBorder("Play Who?"));
-        playersPanel.setLayout(new GridBagLayout());
+        playWhoPanel.setBorder(BorderFactory.createTitledBorder("Play Who?"));
+        playWhoPanel.setLayout(new GridBagLayout());
         gridBagConstraints = new GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 2;
@@ -231,6 +241,114 @@ public class MatchGame extends JFrame
         });
 
 
+        difficultyPanel.setPreferredSize(new Dimension(160, 125));
+        difficultyPanel.setBackground(Color.LIGHT_GRAY);
+        difficultyPanel.setBorder(BorderFactory.createTitledBorder("Difficulty?"));
+        difficultyPanel.setLayout(new GridBagLayout());
+        gridBagConstraints = new GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 3;
+        gridBagConstraints.insets = new Insets(5,10,5,10);
+        getContentPane().add(difficultyPanel, gridBagConstraints);
+
+        easiestRadioButton.setText("Easiest");
+        easiestRadioButton.setBackground(Color.gray);
+        easiestRadioButton.setSelected(true);
+        difficultyButtonGroup.add(easiestRadioButton);
+        gridBagConstraints = new GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.anchor = GridBagConstraints.WEST;
+        difficultyPanel.add(easiestRadioButton, gridBagConstraints);
+        easiestRadioButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                easiestRadioButtonAction(e);
+            }
+        });
+
+        easyRadioButton.setText("Easy");
+        easyRadioButton.setBackground(Color.gray);
+        easyRadioButton.setSelected(true);
+        difficultyPanel.add(easyRadioButton);
+        gridBagConstraints = new GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.anchor = GridBagConstraints.WEST;
+        difficultyPanel.add(easyRadioButton, gridBagConstraints);
+        easyRadioButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                easyRadioButtonAction(e);
+            }
+        });
+
+        hardRadioButton.setText("Hard");
+        hardRadioButton.setBackground(Color.gray);
+        hardRadioButton.setSelected(true);
+        difficultyPanel.add(hardRadioButton);
+        gridBagConstraints = new GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.anchor = GridBagConstraints.WEST;
+        difficultyPanel.add(hardRadioButton, gridBagConstraints);
+        hardRadioButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                hardRadioButtonAction(e);
+            }
+        });
+
+        hardestRadioButton.setText("Hardest");
+        hardestRadioButton.setBackground(Color.gray);
+        hardestRadioButton.setSelected(true);
+        difficultyPanel.add(hardestRadioButton);
+        gridBagConstraints = new GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 3;
+        gridBagConstraints.anchor = GridBagConstraints.WEST;
+        difficultyPanel.add(hardestRadioButton, gridBagConstraints);
+        hardestRadioButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                hardestRadioButtonAction(e);
+            }
+        });
+
+
+        buttonsPanel.setPreferredSize(new Dimension(160,70));
+        buttonsPanel.setLayout(new GridBagLayout());
+        gridBagConstraints = new GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 4;
+        getContentPane().add(buttonsPanel, gridBagConstraints);
+
+        startStopButton.setText("Start Game");
+        gridBagConstraints = new GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        buttonsPanel.add(startStopButton, gridBagConstraints);
+        startStopButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                startStopButtonAction(e);
+            }
+        });
+
+        exitButton.setText("Exit Game");
+        gridBagConstraints = new GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.insets = new Insets(10,0,0,0);
+        buttonsPanel.add(exitButton, gridBagConstraints);
+        exitButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                exitButtonAction(e);
+            }
+        });
+
+
         pack();
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         setBounds((int)(0.5 * (screenSize.width - getWidth())), (int)(0.5 * (screenSize.height - getHeight())), getWidth(), getHeight());
@@ -263,6 +381,36 @@ public class MatchGame extends JFrame
     }
 
     public void playComputerRadioButtonAction(ActionEvent actionEvent)
+    {
+
+    }
+
+    public void easiestRadioButtonAction(ActionEvent actionEvent)
+    {
+
+    }
+
+    public void easyRadioButtonAction(ActionEvent actionEvent)
+    {
+
+    }
+
+    public void hardRadioButtonAction(ActionEvent actionEvent)
+    {
+
+    }
+
+    public void hardestRadioButtonAction(ActionEvent actionEvent)
+    {
+
+    }
+
+    public void startStopButtonAction(ActionEvent actionEvent)
+    {
+
+    }
+
+    public void exitButtonAction(ActionEvent actionEvent)
     {
 
     }
