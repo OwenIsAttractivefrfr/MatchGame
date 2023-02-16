@@ -2,7 +2,7 @@ package com.company;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
-import java.util.GregorianCalendar;
+import java.util.Random;
 
 
 public class MatchGame extends JFrame
@@ -32,8 +32,15 @@ public class MatchGame extends JFrame
     JPanel buttonsPanel = new JPanel();
     JButton startStopButton = new JButton();
     JButton exitButton = new JButton();
-
-
+    ImageIcon[] photos = new ImageIcon[10];
+    ImageIcon cover = new ImageIcon();
+    int photosRemaining;
+    int[] score = new int[2];
+    boolean[] photosFound = new boolean[20];
+    int playerNumber, choiceNumber;
+    int[] choice = new int[2];
+    boolean canClick = false;
+    boolean gameOver;
 
 
 
@@ -269,7 +276,6 @@ public class MatchGame extends JFrame
 
         easyRadioButton.setText("Easy");
         easyRadioButton.setBackground(Color.gray);
-        easyRadioButton.setSelected(true);
         difficultyPanel.add(easyRadioButton);
         gridBagConstraints = new GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -285,7 +291,6 @@ public class MatchGame extends JFrame
 
         hardRadioButton.setText("Hard");
         hardRadioButton.setBackground(Color.gray);
-        hardRadioButton.setSelected(true);
         difficultyPanel.add(hardRadioButton);
         gridBagConstraints = new GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -301,7 +306,6 @@ public class MatchGame extends JFrame
 
         hardestRadioButton.setText("Hardest");
         hardestRadioButton.setBackground(Color.gray);
-        hardestRadioButton.setSelected(true);
         difficultyPanel.add(hardestRadioButton);
         gridBagConstraints = new GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -349,9 +353,35 @@ public class MatchGame extends JFrame
         });
 
 
+
+
+
+
         pack();
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         setBounds((int)(0.5 * (screenSize.width - getWidth())), (int)(0.5 * (screenSize.height - getHeight())), getWidth(), getHeight());
+
+        photos[0] = new ImageIcon("./src/com/company/Image/Breach.jpg");
+        photos[1] = new ImageIcon("./src/com/company/Image/Chamber.jpg");
+        photos[2] = new ImageIcon("./src/com/company/Image/Neon.jpg");
+        photos[3] = new ImageIcon("./src/com/company/Image/Omen.jpg");
+        photos[4] = new ImageIcon("./src/com/company/Image/Pheonix.jpg");
+        photos[5] = new ImageIcon("./src/com/company/Image/Raze.jpg");
+        photos[6] = new ImageIcon("./src/com/company/Image/Sage.jpg");
+        photos[7] = new ImageIcon("./src/com/company/Image/Sova.jpg");
+        photos[8] = new ImageIcon("./src/com/company/Image/Viper.jpg");
+        photos[9] = new ImageIcon("./src/com/company/Image/Yoru.jpg");
+        cover = new ImageIcon("./src/com/company/Image/DOOM.jpg");
+
+
+        for(int i = 0; i < 20; i++)
+        {
+            photoLabel[i].setIcon(cover);
+        }
+        setPlayerWhoButton(false);
+        setDifficultyByButtons(false);
+
+
     }
 
 
@@ -367,22 +397,38 @@ public class MatchGame extends JFrame
 
     public void twoplayerRadioButtonAction(ActionEvent actionEvent)
     {
-
+        setPlayerWhoButton(false);
+        setDifficultyByButtons(false);
+        player2Label.setText("Player 2");
+        player1Label.setText("Player 1");
     }
 
     public void oneplayerRadioButtonAction(ActionEvent actionEvent)
     {
-
+      setPlayerWhoButton(true);
+      player1Label.setText("You");
+      if(playAloneRadioButton.isSelected())
+      {
+          player2Label.setText("Guesses");
+          setDifficultyByButtons(false);
+      }
+      else
+      {
+          player2Label.setText("Computer");
+          setDifficultyByButtons(true);
+      }
     }
 
     public void playAloneRadioButtonAction(ActionEvent actionEvent)
     {
-
+        setDifficultyByButtons(false);
+        player2Label.setText("Guesses");
     }
 
     public void playComputerRadioButtonAction(ActionEvent actionEvent)
     {
-
+        player2Label.setText("Computer");
+        setDifficultyByButtons(true);
     }
 
     public void easiestRadioButtonAction(ActionEvent actionEvent)
@@ -407,11 +453,57 @@ public class MatchGame extends JFrame
 
     public void startStopButtonAction(ActionEvent actionEvent)
     {
-
+        if(startStopButton.getText().equals("Start Game"))
+        {
+            startStopButton.setText("Stop Game");
+//            scoreTextField[0] = 0;
+        }
     }
 
     public void exitButtonAction(ActionEvent actionEvent)
     {
+        System.exit(0);
+    }
+
+    public void setPlayerButtons(boolean a)
+    {
+        oneplayerRadioButton.setEnabled(a);
+        twoplayerRadioButton.setEnabled(a);
 
     }
+
+    public void setPlayerWhoButton(boolean b)
+    {
+        playAloneRadioButton.setEnabled(b);
+        playComputerRadioButton.setEnabled(b);
+
+    }
+
+    public void setDifficultyByButtons(boolean c)
+    {
+        easyRadioButton.setEnabled(c);
+        easiestRadioButton.setEnabled(c);
+        hardestRadioButton.setEnabled(c);
+        hardRadioButton.setEnabled(c);
+    }
+
+    public int[] integerShuffling(int n)
+    {
+        int[] integers = new int[n];
+        int temps, s;
+        Random sortRandom = new Random();
+        for(int i = 0; i < n; i++)
+        {
+            integers[i] = i;
+        }
+        for(int i = n; i >= 1; i--)
+        {
+            s = sortRandom.nextInt(i);
+            temps = integers[s];
+            integers[s] = integers[i-1];
+            integers[i-1] = temps;
+        }
+        return integers;
+    }
+
 }
