@@ -34,6 +34,7 @@ public class MatchGame extends JFrame
     JButton exitButton = new JButton();
     ImageIcon[] photos = new ImageIcon[10];
     ImageIcon cover = new ImageIcon();
+    int[] photoIndex = new int[20];
     int photosRemaining;
     int[] score = new int[2];
     boolean[] photosFound = new boolean[20];
@@ -361,17 +362,17 @@ public class MatchGame extends JFrame
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         setBounds((int)(0.5 * (screenSize.width - getWidth())), (int)(0.5 * (screenSize.height - getHeight())), getWidth(), getHeight());
 
-        photos[0] = new ImageIcon("./src/com/company/Image/Breach.jpg");
-        photos[1] = new ImageIcon("./src/com/company/Image/Chamber.jpg");
-        photos[2] = new ImageIcon("./src/com/company/Image/Neon.jpg");
-        photos[3] = new ImageIcon("./src/com/company/Image/Omen.jpg");
-        photos[4] = new ImageIcon("./src/com/company/Image/Pheonix.jpg");
-        photos[5] = new ImageIcon("./src/com/company/Image/Raze.jpg");
-        photos[6] = new ImageIcon("./src/com/company/Image/Sage.jpg");
-        photos[7] = new ImageIcon("./src/com/company/Image/Sova.jpg");
-        photos[8] = new ImageIcon("./src/com/company/Image/Viper.jpg");
-        photos[9] = new ImageIcon("./src/com/company/Image/Yoru.jpg");
-        cover = new ImageIcon("./src/com/company/Image/DOOM.jpg");
+        photos[0] = new ImageIcon("./src/com/company/Images/Breach.jpg");
+        photos[1] = new ImageIcon("./src/com/company/Images/Chamber.jpg");
+        photos[2] = new ImageIcon("./src/com/company/Images/Neon.jpg");
+        photos[3] = new ImageIcon("./src/com/company/Images/Omen.jpg");
+        photos[4] = new ImageIcon("./src/com/company/Images/Pheonix.jpg");
+        photos[5] = new ImageIcon("./src/com/company/Images/Raze.jpg");
+        photos[6] = new ImageIcon("./src/com/company/Images/Sage.jpg");
+        photos[7] = new ImageIcon("./src/com/company/Images/Sova.jpg");
+        photos[8] = new ImageIcon("./src/com/company/Images/Viper.jpg");
+        photos[9] = new ImageIcon("./src/com/company/Images/Yoru.jpg");
+        cover = new ImageIcon("./src/com/company/Images/DOOM.jpg");
 
 
         for(int i = 0; i < 20; i++)
@@ -456,7 +457,57 @@ public class MatchGame extends JFrame
         if(startStopButton.getText().equals("Start Game"))
         {
             startStopButton.setText("Stop Game");
-//            scoreTextField[0] = 0;
+            score[0] = 0;
+            score[1] = 0;
+            scoreTextField[0].setText("0");
+            scoreTextField[1].setText("0");
+            photosRemaining = 20;
+            photoIndex = integerShuffling(20);
+            for(int i = 0; i < 20; i++)
+            {
+                if(photoIndex[i] > 9)
+                {
+                    photoIndex[i] -= 10;
+                }
+                photosFound[i] = false;
+                photoLabel[i].setIcon(cover);
+            }
+            playerNumber = 1;
+            choiceNumber = 1;
+            if(twoplayerRadioButton.isSelected())
+            {
+                messageLabel.setText("Player 1 pick a box");
+            }
+            else
+            {
+                messageLabel.setText("Pick a box");
+            }
+            setPlayerWhoButton(false);
+            setNumberPlayersButton(false);
+            setDifficultyByButtons(false);
+            exitButton.setEnabled(false);
+            canClick = true;
+            gameOver = false;
+        }
+        else
+        {
+            //stop game
+            startStopButton.setText("Start Game");
+            setNumberPlayersButton(true);
+            if(oneplayerRadioButton.isSelected())
+            {
+                setPlayerWhoButton(true);
+                if(playComputerRadioButton.isSelected())
+                {
+                    setDifficultyByButtons(true);
+                }
+            }
+            exitButton.setEnabled(true);
+            canClick = false;
+            if(!gameOver)
+            {
+                messageLabel.setText("Game Stopped");
+            }
         }
     }
 
@@ -504,6 +555,12 @@ public class MatchGame extends JFrame
             integers[i-1] = temps;
         }
         return integers;
+    }
+
+    public void setNumberPlayersButton(boolean a)
+    {
+        oneplayerRadioButton.setEnabled(a);
+        twoplayerRadioButton.setEnabled(a);
     }
 
 }
