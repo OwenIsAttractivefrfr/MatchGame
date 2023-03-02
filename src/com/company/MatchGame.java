@@ -631,10 +631,6 @@ public class MatchGame extends JFrame
             messageLabel.setText("Player" + String.valueOf(playerNumber) + "Pick again");
             canClick = true;
         }
-        else
-        {
-
-        }
         else {
             loserSound.play();
             photosFound[choice[0]] = false;
