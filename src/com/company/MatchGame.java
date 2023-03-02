@@ -1,7 +1,10 @@
 package com.company;
 import javax.swing.*;
+import java.applet.Applet;
+import java.applet.AudioClip;
 import java.awt.*;
 import java.awt.event.*;
+import java.net.URL;
 import java.util.Random;
 
 
@@ -42,6 +45,10 @@ public class MatchGame extends JFrame
     int[] choice = new int[2];
     boolean canClick = false;
     boolean gameOver;
+    AudioClip correctSound;
+    AudioClip gameOverSound;
+    AudioClip loserSound;
+    int labelSelected;
 
 
 
@@ -374,13 +381,24 @@ public class MatchGame extends JFrame
         photos[9] = new ImageIcon("./src/com/company/Images/Yoru.jpg");
         cover = new ImageIcon("./src/com/company/Images/DOOM.jpg");
 
-
         for(int i = 0; i < 20; i++)
         {
             photoLabel[i].setIcon(cover);
         }
         setPlayerWhoButton(false);
         setDifficultyByButtons(false);
+
+        try
+        {
+            correctSound = Applet.newAudioClip(new URL("file:" + "./src/com/company/Sounds/Correct.wav"));
+            loserSound = Applet.newAudioClip(new URL("file:" + "./src/com/company/Sounds/Loser.wav"));
+            gameOverSound = Applet.newAudioClip(new URL("file:" + "./src/com/company/Sounds/GameOver.wav"));
+        }
+        catch(Exception e)
+        {
+            System.out.println("Sound could not load");
+        }
+
 
 
     }
@@ -561,6 +579,86 @@ public class MatchGame extends JFrame
     {
         oneplayerRadioButton.setEnabled(a);
         twoplayerRadioButton.setEnabled(a);
+    }
+
+    public void showSelectedLabel() {
+        photoLabel[labelSelected].setIcon(photos[photoIndex[labelSelected]]);
+        photosFound[labelSelected] = true;
+        if (choiceNumber == 1) {
+            choice[0] = labelSelected;
+            choiceNumber = 2;
+            if (twoplayerRadioButton.isSelected()) {
+                messageLabel.setText("Player " + String.valueOf(playerNumber) + "pick another");
+                canClick = true;
+
+            } else {
+
+            }
+        } else {
+            choice[1] = labelSelected;
+            choiceNumber = 1;
+            if (photoIndex[choice[0]] == photoIndex[choice[1]]) {
+                correctSound.play();
+                photoLabel[choice[0]].setIcon(null);
+                photoLabel[choice[1]].setIcon(null);
+                score[playerNumber - 1]++;
+                scoreTextField[playerNumber - 1].setText(String.valueOf(score[playerNumber - 1]));
+                photosRemaining -= 2;
+                if (photosRemaining == 0) {
+                    gameOver = true;
+                    gameOverSound.play();
+                }
+
+                if (twoplayerRadioButton.isSelected()) {
+                    if (score[0] > score[1]) {
+                        messageLabel.setText("Player 1 Wins!");
+                    } else if (score[1] > score[0]) {
+                        messageLabel.setText("Player 1 wins");
+                    } else {
+                        messageLabel.setText("It is  at tie");
+                    }
+                }
+            }
+            else
+            {
+
+            }
+            startStopButton.doClick();
+            return;
+        }
+        if(twoplayerRadioButton.isSelected())
+        {
+            messageLabel.setText("Player" + String.valueOf(playerNumber) + "Pick again");
+            canClick = true;
+        }
+        else
+        {
+
+        }
+        else {
+            loserSound.play();
+            photosFound[choice[0]] = false;
+            photosFound[choice[1]] = false;
+            photoLabel[choice[0]].setIcon(cover);
+            photoLabel[choice[1]].setIcon(cover);
+            if(twoplayerRadioButton.isSelected())
+            {
+                if(playerNumber == 1)
+                {
+                    playerNumber = 2;
+                }
+                else
+                {
+                    playerNumber = 1;
+                }
+                messageLabel.setText("Player " + String.valueOf(playerNumber) + "Pick a box");
+                canClick = true;
+            }
+            else
+            {
+
+            }
+        }
     }
 
 }
