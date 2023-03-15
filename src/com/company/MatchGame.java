@@ -8,8 +8,7 @@ import java.net.URL;
 import java.util.Random;
 
 
-public class MatchGame extends JFrame
-{
+public class MatchGame extends JFrame {
 
     JPanel gamePanel = new JPanel();
     JLabel[] photoLabel = new JLabel[20];
@@ -49,11 +48,11 @@ public class MatchGame extends JFrame
     AudioClip gameOverSound;
     AudioClip loserSound;
     int labelSelected;
+    Timer displayTimer;
+    Timer delayTimer;
 
 
-
-    public MatchGame()
-    {
+    public MatchGame() {
         setTitle("Match Game");
         setResizable(false);
         addWindowListener(new WindowAdapter() {
@@ -65,7 +64,7 @@ public class MatchGame extends JFrame
         getContentPane().setLayout(new GridBagLayout());
         GridBagConstraints gridBagConstraints;
 
-        gamePanel.setPreferredSize(new Dimension(625,530));
+        gamePanel.setPreferredSize(new Dimension(625, 530));
         gamePanel.setLayout(new GridBagLayout());
         gridBagConstraints = new GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -74,27 +73,23 @@ public class MatchGame extends JFrame
         getContentPane().add(gamePanel, gridBagConstraints);
 
 
-        for(int i = 0; i < 20; i++)
-        {
+        for (int i = 0; i < 20; i++) {
             photoLabel[i] = new JLabel();
-            photoLabel[i].setPreferredSize(new Dimension(150,100));
+            photoLabel[i].setPreferredSize(new Dimension(150, 100));
             photoLabel[i].setOpaque(true);
             photoLabel[i].setBackground(Color.BLUE);
             gridBagConstraints = new GridBagConstraints();
-            gridBagConstraints.gridx = i%4;
-            gridBagConstraints.gridy = i/4;
-            gridBagConstraints.insets = new Insets(5,5,0,0);
-            if(gridBagConstraints.gridx == 3)
-            {
-                gridBagConstraints.insets = new Insets(5,5,0,5);
+            gridBagConstraints.gridx = i % 4;
+            gridBagConstraints.gridy = i / 4;
+            gridBagConstraints.insets = new Insets(5, 5, 0, 0);
+            if (gridBagConstraints.gridx == 3) {
+                gridBagConstraints.insets = new Insets(5, 5, 0, 5);
             }
-            if(gridBagConstraints.gridy == 4)
-            {
-                gridBagConstraints.insets = new Insets(5,5,5,0);
+            if (gridBagConstraints.gridy == 4) {
+                gridBagConstraints.insets = new Insets(5, 5, 5, 0);
             }
-            if(gridBagConstraints.gridx == 3 && gridBagConstraints.gridy == 4)
-            {
-                gridBagConstraints.insets = new Insets(5,5,5,5);
+            if (gridBagConstraints.gridx == 3 && gridBagConstraints.gridy == 4) {
+                gridBagConstraints.insets = new Insets(5, 5, 5, 5);
             }
             gamePanel.add(photoLabel[i], gridBagConstraints);
             photoLabel[i].addMouseListener(new MouseAdapter() {
@@ -107,7 +102,7 @@ public class MatchGame extends JFrame
 
         }
 
-        resultsPanel.setPreferredSize(new Dimension(160,140));
+        resultsPanel.setPreferredSize(new Dimension(160, 140));
         resultsPanel.setLayout(new GridBagLayout());
         gridBagConstraints = new GridBagConstraints();
         gridBagConstraints.gridx = 1;
@@ -124,7 +119,7 @@ public class MatchGame extends JFrame
 
 
         scoreTextField[0] = new JTextField();
-        scoreTextField[0].setPreferredSize(new Dimension(100,25));
+        scoreTextField[0].setPreferredSize(new Dimension(100, 25));
         scoreTextField[0].setText("0");
         scoreTextField[0].setEditable(false);
         scoreTextField[0].setBackground(Color.CYAN);
@@ -141,12 +136,12 @@ public class MatchGame extends JFrame
         gridBagConstraints = new GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 2;
-        gridBagConstraints.insets = new Insets(5,0,0,0);
+        gridBagConstraints.insets = new Insets(5, 0, 0, 0);
         resultsPanel.add(player2Label, gridBagConstraints);
 
 
         scoreTextField[1] = new JTextField();
-        scoreTextField[1].setPreferredSize(new Dimension(100,25));
+        scoreTextField[1].setPreferredSize(new Dimension(100, 25));
         scoreTextField[1].setText("0");
         scoreTextField[1].setEditable(false);
         scoreTextField[1].setBackground(Color.CYAN);
@@ -167,17 +162,17 @@ public class MatchGame extends JFrame
         gridBagConstraints = new GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 4;
-        gridBagConstraints.insets = new Insets(5,0,0,0);
-        resultsPanel.add(messageLabel,gridBagConstraints);
+        gridBagConstraints.insets = new Insets(5, 0, 0, 0);
+        resultsPanel.add(messageLabel, gridBagConstraints);
 
-        playersPanel.setPreferredSize(new Dimension(160,75));
+        playersPanel.setPreferredSize(new Dimension(160, 75));
         playersPanel.setBackground(Color.lightGray);
         playersPanel.setBorder(BorderFactory.createTitledBorder("Number of players?"));
         playersPanel.setLayout(new GridBagLayout());
         gridBagConstraints = new GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 1;
-        gridBagConstraints.insets = new Insets(5,10,5,10);
+        gridBagConstraints.insets = new Insets(5, 10, 5, 10);
         getContentPane().add(playersPanel, gridBagConstraints);
 
         twoplayerRadioButton.setText("Two Players");
@@ -212,14 +207,14 @@ public class MatchGame extends JFrame
         });
 
 
-        playWhoPanel.setPreferredSize(new Dimension(160,75));
+        playWhoPanel.setPreferredSize(new Dimension(160, 75));
         playWhoPanel.setBackground(Color.lightGray);
         playWhoPanel.setBorder(BorderFactory.createTitledBorder("Play Who?"));
         playWhoPanel.setLayout(new GridBagLayout());
         gridBagConstraints = new GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 2;
-        gridBagConstraints.insets = new Insets(5,10,5,10);
+        gridBagConstraints.insets = new Insets(5, 10, 5, 10);
         getContentPane().add(playWhoPanel, gridBagConstraints);
 
 
@@ -263,7 +258,7 @@ public class MatchGame extends JFrame
         gridBagConstraints = new GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 3;
-        gridBagConstraints.insets = new Insets(5,10,5,10);
+        gridBagConstraints.insets = new Insets(5, 10, 5, 10);
         getContentPane().add(difficultyPanel, gridBagConstraints);
 
         easiestRadioButton.setText("Easiest");
@@ -328,7 +323,7 @@ public class MatchGame extends JFrame
         });
 
 
-        buttonsPanel.setPreferredSize(new Dimension(160,70));
+        buttonsPanel.setPreferredSize(new Dimension(160, 70));
         buttonsPanel.setLayout(new GridBagLayout());
         gridBagConstraints = new GridBagConstraints();
         gridBagConstraints.gridx = 1;
@@ -351,7 +346,7 @@ public class MatchGame extends JFrame
         gridBagConstraints = new GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
-        gridBagConstraints.insets = new Insets(10,0,0,0);
+        gridBagConstraints.insets = new Insets(10, 0, 0, 0);
         buttonsPanel.add(exitButton, gridBagConstraints);
         exitButton.addActionListener(new ActionListener() {
             @Override
@@ -361,13 +356,25 @@ public class MatchGame extends JFrame
         });
 
 
+        displayTimer = new Timer(500, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                displaytimer(e);
 
+            }
+        });
 
+        delayTimer = new Timer(1000, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                delaytimer(e);
+            }
+        });
 
 
         pack();
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-        setBounds((int)(0.5 * (screenSize.width - getWidth())), (int)(0.5 * (screenSize.height - getHeight())), getWidth(), getHeight());
+        setBounds((int) (0.5 * (screenSize.width - getWidth())), (int) (0.5 * (screenSize.height - getHeight())), getWidth(), getHeight());
 
         photos[0] = new ImageIcon("./src/com/company/Images/Breach.jpg");
         photos[1] = new ImageIcon("./src/com/company/Images/Chamber.jpg");
@@ -381,99 +388,89 @@ public class MatchGame extends JFrame
         photos[9] = new ImageIcon("./src/com/company/Images/Yoru.jpg");
         cover = new ImageIcon("./src/com/company/Images/DOOM.jpg");
 
-        for(int i = 0; i < 20; i++)
-        {
+        for (int i = 0; i < 20; i++) {
             photoLabel[i].setIcon(cover);
         }
         setPlayerWhoButton(false);
         setDifficultyByButtons(false);
 
-        try
-        {
+        try {
             correctSound = Applet.newAudioClip(new URL("file:" + "./src/com/company/Sounds/Correct.wav"));
             loserSound = Applet.newAudioClip(new URL("file:" + "./src/com/company/Sounds/Loser.wav"));
             gameOverSound = Applet.newAudioClip(new URL("file:" + "./src/com/company/Sounds/GameOver.wav"));
-        }
-        catch(Exception e)
-        {
+        } catch (Exception e) {
             System.out.println("Sound could not load");
         }
 
 
-
     }
 
 
-    public void exitForm(WindowEvent windowEvent)
-    {
+    public void exitForm(WindowEvent windowEvent) {
         System.exit(0);
     }
 
-    public void photoLabelMousePressed(MouseEvent mouseEvent)
-    {
-
+    public void photoLabelMousePressed(MouseEvent mouseEvent) {
+        Point point = mouseEvent.getComponent().getLocation();
+        for (labelSelected = 0; labelSelected < 20; labelSelected++) {
+            if (point.x == photoLabel[labelSelected].getX() && point.y == photoLabel[labelSelected].getY()) {
+                break;
+            }
+            if (!canClick || photosFound[labelSelected]) {
+                return;
+            }
+            canClick = false;
+            showSelectedLabel();
+        }
     }
 
-    public void twoplayerRadioButtonAction(ActionEvent actionEvent)
-    {
+    public void twoplayerRadioButtonAction(ActionEvent actionEvent) {
         setPlayerWhoButton(false);
         setDifficultyByButtons(false);
         player2Label.setText("Player 2");
         player1Label.setText("Player 1");
     }
 
-    public void oneplayerRadioButtonAction(ActionEvent actionEvent)
-    {
-      setPlayerWhoButton(true);
-      player1Label.setText("You");
-      if(playAloneRadioButton.isSelected())
-      {
-          player2Label.setText("Guesses");
-          setDifficultyByButtons(false);
-      }
-      else
-      {
-          player2Label.setText("Computer");
-          setDifficultyByButtons(true);
-      }
+    public void oneplayerRadioButtonAction(ActionEvent actionEvent) {
+        setPlayerWhoButton(true);
+        player1Label.setText("You");
+        if (playAloneRadioButton.isSelected()) {
+            player2Label.setText("Guesses");
+            setDifficultyByButtons(false);
+        } else {
+            player2Label.setText("Computer");
+            setDifficultyByButtons(true);
+        }
     }
 
-    public void playAloneRadioButtonAction(ActionEvent actionEvent)
-    {
+    public void playAloneRadioButtonAction(ActionEvent actionEvent) {
         setDifficultyByButtons(false);
         player2Label.setText("Guesses");
     }
 
-    public void playComputerRadioButtonAction(ActionEvent actionEvent)
-    {
+    public void playComputerRadioButtonAction(ActionEvent actionEvent) {
         player2Label.setText("Computer");
         setDifficultyByButtons(true);
     }
 
-    public void easiestRadioButtonAction(ActionEvent actionEvent)
-    {
+    public void easiestRadioButtonAction(ActionEvent actionEvent) {
 
     }
 
-    public void easyRadioButtonAction(ActionEvent actionEvent)
-    {
+    public void easyRadioButtonAction(ActionEvent actionEvent) {
 
     }
 
-    public void hardRadioButtonAction(ActionEvent actionEvent)
-    {
+    public void hardRadioButtonAction(ActionEvent actionEvent) {
 
     }
 
-    public void hardestRadioButtonAction(ActionEvent actionEvent)
-    {
+    public void hardestRadioButtonAction(ActionEvent actionEvent) {
 
     }
 
-    public void startStopButtonAction(ActionEvent actionEvent)
-    {
-        if(startStopButton.getText().equals("Start Game"))
-        {
+    public void startStopButtonAction(ActionEvent actionEvent) {
+        if (startStopButton.getText().equals("Start Game")) {
             startStopButton.setText("Stop Game");
             score[0] = 0;
             score[1] = 0;
@@ -481,10 +478,8 @@ public class MatchGame extends JFrame
             scoreTextField[1].setText("0");
             photosRemaining = 20;
             photoIndex = integerShuffling(20);
-            for(int i = 0; i < 20; i++)
-            {
-                if(photoIndex[i] > 9)
-                {
+            for (int i = 0; i < 20; i++) {
+                if (photoIndex[i] > 9) {
                     photoIndex[i] -= 10;
                 }
                 photosFound[i] = false;
@@ -492,12 +487,9 @@ public class MatchGame extends JFrame
             }
             playerNumber = 1;
             choiceNumber = 1;
-            if(twoplayerRadioButton.isSelected())
-            {
+            if (twoplayerRadioButton.isSelected()) {
                 messageLabel.setText("Player 1 pick a box");
-            }
-            else
-            {
+            } else {
                 messageLabel.setText("Pick a box");
             }
             setPlayerWhoButton(false);
@@ -506,77 +498,64 @@ public class MatchGame extends JFrame
             exitButton.setEnabled(false);
             canClick = true;
             gameOver = false;
-        }
-        else
-        {
+        } else {
             //stop game
             startStopButton.setText("Start Game");
             setNumberPlayersButton(true);
-            if(oneplayerRadioButton.isSelected())
-            {
+            if (oneplayerRadioButton.isSelected()) {
                 setPlayerWhoButton(true);
-                if(playComputerRadioButton.isSelected())
-                {
+                if (playComputerRadioButton.isSelected()) {
                     setDifficultyByButtons(true);
                 }
             }
             exitButton.setEnabled(true);
             canClick = false;
-            if(!gameOver)
-            {
+            if (!gameOver) {
                 messageLabel.setText("Game Stopped");
             }
         }
     }
 
-    public void exitButtonAction(ActionEvent actionEvent)
-    {
+    public void exitButtonAction(ActionEvent actionEvent) {
         System.exit(0);
     }
 
-    public void setPlayerButtons(boolean a)
-    {
+    public void setPlayerButtons(boolean a) {
         oneplayerRadioButton.setEnabled(a);
         twoplayerRadioButton.setEnabled(a);
 
     }
 
-    public void setPlayerWhoButton(boolean b)
-    {
+    public void setPlayerWhoButton(boolean b) {
         playAloneRadioButton.setEnabled(b);
         playComputerRadioButton.setEnabled(b);
 
     }
 
-    public void setDifficultyByButtons(boolean c)
-    {
+    public void setDifficultyByButtons(boolean c) {
         easyRadioButton.setEnabled(c);
         easiestRadioButton.setEnabled(c);
         hardestRadioButton.setEnabled(c);
         hardRadioButton.setEnabled(c);
     }
 
-    public int[] integerShuffling(int n)
-    {
+    public int[] integerShuffling(int n) {
         int[] integers = new int[n];
         int temps, s;
         Random sortRandom = new Random();
-        for(int i = 0; i < n; i++)
-        {
+        for (int i = 0; i < n; i++) {
             integers[i] = i;
         }
-        for(int i = n; i >= 1; i--)
-        {
+        for (int i = n; i >= 1; i--) {
             s = sortRandom.nextInt(i);
             temps = integers[s];
-            integers[s] = integers[i-1];
-            integers[i-1] = temps;
+            integers[s] = integers[i - 1];
+            integers[i - 1] = temps;
         }
         return integers;
     }
 
-    public void setNumberPlayersButton(boolean a)
-    {
+    public void setNumberPlayersButton(boolean a) {
         oneplayerRadioButton.setEnabled(a);
         twoplayerRadioButton.setEnabled(a);
     }
@@ -584,6 +563,7 @@ public class MatchGame extends JFrame
     public void showSelectedLabel() {
         photoLabel[labelSelected].setIcon(photos[photoIndex[labelSelected]]);
         photosFound[labelSelected] = true;
+        displayTimer.start();
         if (choiceNumber == 1) {
             choice[0] = labelSelected;
             choiceNumber = 2;
@@ -607,47 +587,58 @@ public class MatchGame extends JFrame
                 if (photosRemaining == 0) {
                     gameOver = true;
                     gameOverSound.play();
-                }
+//                }
 
-                if (twoplayerRadioButton.isSelected()) {
-                    if (score[0] > score[1]) {
-                        messageLabel.setText("Player 1 Wins!");
-                    } else if (score[1] > score[0]) {
-                        messageLabel.setText("Player 1 wins");
+                    if (twoplayerRadioButton.isSelected()) {
+                        if (score[0] > score[1]) {
+                            messageLabel.setText("Player 1 Wins!");
+                        } else if (score[1] > score[0]) {
+                            messageLabel.setText("Player 2 wins");
+                        } else {
+                            messageLabel.setText("It is  at tie");
+                        }
+//                }
                     } else {
-                        messageLabel.setText("It is  at tie");
+
+                    }
+                    startStopButton.doClick();
+                    return;
+        }
+                    if (twoplayerRadioButton.isSelected()) {
+                        messageLabel.setText("Player" + String.valueOf(playerNumber) + "Pick again");
+                        canClick = true;
+                    } else {
+                        loserSound.play();
+                        photosFound[choice[0]] = false;
+                        photosFound[choice[1]] = false;
+                        photoLabel[choice[0]].setIcon(cover);
+                        photoLabel[choice[1]].setIcon(cover);
+                        if (twoplayerRadioButton.isSelected()) {
+                            if (playerNumber == 1) {
+                                playerNumber = 2;
+                            } else {
+                                playerNumber = 1;
+                            }
+                            messageLabel.setText("Player " + String.valueOf(playerNumber) + "Pick a box");
+                            canClick = true;
+                        } else {
+
+                        }
                     }
                 }
             }
-            else
-            {
 
-            }
-            startStopButton.doClick();
-            return;
         }
-        if(twoplayerRadioButton.isSelected())
+    public void displaytimer (ActionEvent actionEvent)
+    {
+        displayTimer.stop();
+        if(choiceNumber == 1)
         {
-            messageLabel.setText("Player" + String.valueOf(playerNumber) + "Pick again");
-            canClick = true;
-        }
-        else {
-            loserSound.play();
-            photosFound[choice[0]] = false;
-            photosFound[choice[1]] = false;
-            photoLabel[choice[0]].setIcon(cover);
-            photoLabel[choice[1]].setIcon(cover);
+            choice[0] = labelSelected;
+            choiceNumber = 2;
             if(twoplayerRadioButton.isSelected())
             {
-                if(playerNumber == 1)
-                {
-                    playerNumber = 2;
-                }
-                else
-                {
-                    playerNumber = 1;
-                }
-                messageLabel.setText("Player " + String.valueOf(playerNumber) + "Pick a box");
+                messageLabel.setText("Player " + String.valueOf(playerNumber) + " , pick another");
                 canClick = true;
             }
             else
@@ -655,6 +646,67 @@ public class MatchGame extends JFrame
 
             }
         }
+        else
+        {
+            choice[1] = labelSelected;
+            choiceNumber = 1;
+            if(photoIndex[choice[0]] == photoIndex[choice[1]])
+            {
+                correctSound.play();
+                photoLabel[choice[0]].setIcon(null);
+                photoLabel[choice[1]].setIcon(null);
+                score[playerNumber - 1]++;
+                scoreTextField[playerNumber - 1].setText(String.valueOf(score[playerNumber - 1]));
+                photosRemaining -= 2;
+                if(photosRemaining==0)
+                {
+                    gameOver = true;
+                    gameOverSound.play();
+                }
+                if(twoplayerRadioButton.isSelected())
+                {
+                    if(score[0] > score[1])
+                    {
+                        messageLabel.setText("Player 1 won");
+
+                    }
+                    if(score[1] > score[0])
+                    {
+                        messageLabel.setText("Player 2 won");
+
+                    }
+                    else{
+                        messageLabel.setText("Its a tie1");
+                    }
+                }
+                else{
+
+                }
+            }else{
+                loserSound.play();
+                photosFound[choice[0]] =false;
+                photosFound[choice[1]] = false;
+                photoLabel[choice[0]].setIcon(cover);
+                photoLabel[choice[1]].setIcon(cover);
+
+                if(twoplayerRadioButton.isSelected()){
+                    if(playerNumber == 1){
+                        playerNumber = 2;
+                    }
+                    else{
+                        playerNumber = 1;
+                        messageLabel.setText("Player " + String.valueOf(playerNumber) + ", Pick another");
+                        canClick = true;
+                    }
+                }else {
+
+                }
+            }
+        }
     }
 
+    public void delaytimer (ActionEvent actionEvent)
+    {
+
+    }
 }
