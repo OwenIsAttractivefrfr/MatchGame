@@ -416,12 +416,12 @@ public class MatchGame extends JFrame {
             if (point.x == photoLabel[labelSelected].getX() && point.y == photoLabel[labelSelected].getY()) {
                 break;
             }
+        }
             if (!canClick || photosFound[labelSelected]) {
                 return;
             }
             canClick = false;
             showSelectedLabel();
-        }
     }
 
     public void twoplayerRadioButtonAction(ActionEvent actionEvent) {
@@ -490,7 +490,7 @@ public class MatchGame extends JFrame {
             if (twoplayerRadioButton.isSelected()) {
                 messageLabel.setText("Player 1 pick a box");
             } else {
-                messageLabel.setText("Pick a box");
+                messageLabel.setText(" Pick a box");
             }
             setPlayerWhoButton(false);
             setNumberPlayersButton(false);
@@ -552,7 +552,7 @@ public class MatchGame extends JFrame {
             integers[s] = integers[i - 1];
             integers[i - 1] = temps;
         }
-        return integers;
+        return (integers);
     }
 
     public void setNumberPlayersButton(boolean a) {
@@ -564,75 +564,19 @@ public class MatchGame extends JFrame {
         photoLabel[labelSelected].setIcon(photos[photoIndex[labelSelected]]);
         photosFound[labelSelected] = true;
         displayTimer.start();
-        if (choiceNumber == 1) {
-            choice[0] = labelSelected;
-            choiceNumber = 2;
-            if (twoplayerRadioButton.isSelected()) {
-                messageLabel.setText("Player " + String.valueOf(playerNumber) + "pick another");
-                canClick = true;
-            } else {
-            }
-        } else {
-            choice[1] = labelSelected;
-            choiceNumber = 1;
-            if (photoIndex[choice[0]] == photoIndex[choice[1]]) {
-                correctSound.play();
-                photoLabel[choice[0]].setIcon(null);
-                photoLabel[choice[1]].setIcon(null);
-                score[playerNumber - 1]++;
-                scoreTextField[playerNumber - 1].setText(String.valueOf(score[playerNumber - 1]));
-                photosRemaining -= 2;
-                if (photosRemaining == 0){
-                    gameOver = true;
-                    gameOverSound.play();
-                    if (twoplayerRadioButton.isSelected()) {
-                        if (score[0] > score[1]) {
-                            messageLabel.setText("Player 1 Wins!");
-                        } else if (score[1] > score[0]) {
-                            messageLabel.setText("Player 2 wins");
-                        } else {
-                            messageLabel.setText("It is  at tie");
-                        }
-                    } else {
 
-                    }
-                    startStopButton.doClick();
-                    return;
-                }
-                if (twoplayerRadioButton.isSelected()) {
-                    messageLabel.setText("Player" + String.valueOf(playerNumber) + "Pick again");
-                    canClick = true;
-                } else {
-                }
-            }else {
-                loserSound.play();
-                photosFound[choice[0]] = false;
-                photosFound[choice[1]] = false;
-                photoLabel[choice[0]].setIcon(cover);
-                photoLabel[choice[1]].setIcon(cover);
-                if (twoplayerRadioButton.isSelected()) {
-                    if (playerNumber == 1) {
-                        playerNumber = 2;
-                    } else {
-                        playerNumber = 1;
-                    }
-                        messageLabel.setText("Player " + String.valueOf(playerNumber) + "Pick a box");
-                        canClick = true;
-                }else{
-                }
-            }
-        }
     }
-    public void displaytimer (ActionEvent actionEvent)
+    public void displaytimer(ActionEvent actionEvent)
     {
         displayTimer.stop();
         if (choiceNumber == 1) {
             choice[0] = labelSelected;
             choiceNumber = 2;
             if (twoplayerRadioButton.isSelected()) {
-                messageLabel.setText("Player " + String.valueOf(playerNumber) + "pick another");
+                messageLabel.setText("Player " + String.valueOf(playerNumber) + " pick another");
                 canClick = true;
             } else {
+                // one player logic
             }
         } else {
             choice[1] = labelSelected;
@@ -678,7 +622,7 @@ public class MatchGame extends JFrame {
                     } else {
                         playerNumber = 1;
                     }
-                    messageLabel.setText("Player " + String.valueOf(playerNumber) + "Pick a box");
+                    messageLabel.setText("Player " + String.valueOf(playerNumber) + " Pick a box");
                     canClick = true;
                 }else{
                 }
@@ -690,4 +634,5 @@ public class MatchGame extends JFrame {
     {
 
     }
+
 }
